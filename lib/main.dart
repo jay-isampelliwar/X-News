@@ -1,25 +1,24 @@
-import 'package:news_app/models/news_model.dart';
-import 'package:news_app/screens/call_api.dart';
+import 'package:flutter/material.dart';
+import 'package:news_app/provider/news_provider.dart';
+import 'package:provider/provider.dart';
 
-void main() async {
-  var res = await CallAPI.getNews("");
-  NewsModel? newsModel;
-  if (res.statusCode == 200) {
-    newsModel = newsModelFromJson(res.body);
-    print(newsModel.articles.first.content);
-  } else {
-    throw "E R R O R";
-  }
+import 'data_screen.dart';
 
-  // runApp(MyApp());
+void main() {
+  runApp(MyApp());
 }
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: HomePage(),
-//     );
-//   }
-// }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NewsProvider()),
+      ],
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Homee(),
+      ),
+    );
+  }
+}

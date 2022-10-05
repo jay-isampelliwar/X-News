@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final newsModel = newsModelFromJson(jsonString);
-
 import 'dart:convert';
 
 NewsModel newsModelFromJson(String str) => NewsModel.fromJson(json.decode(str));
@@ -47,16 +43,16 @@ class Article {
 
   Source source;
   String? author;
-  String title;
-  String description;
-  String url;
-  String urlToImage;
+  String? title;
+  String? description;
+  String? url;
+  String? urlToImage;
   DateTime publishedAt;
-  String content;
+  String? content;
 
   factory Article.fromJson(Map<String, dynamic> json) => Article(
         source: Source.fromJson(json["source"]),
-        author: json["author"] ?? "",
+        author: json["author"],
         title: json["title"],
         description: json["description"],
         url: json["url"],
@@ -67,7 +63,7 @@ class Article {
 
   Map<String, dynamic> toJson() => {
         "source": source.toJson(),
-        "author": author ?? "",
+        "author": author,
         "title": title,
         "description": description,
         "url": url,
@@ -80,53 +76,19 @@ class Article {
 class Source {
   Source({
     this.id,
-    required this.name,
+    this.name,
   });
 
-  Id? id;
-  String name;
+  String? id;
+  String? name;
 
   factory Source.fromJson(Map<String, dynamic> json) => Source(
-        id: json["id"] == null ? null : idValues.map[json["id"]],
+        id: json["id"],
         name: json["name"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id == null ? null : idValues.reverse[id],
+        "id": id,
         "name": name,
       };
-}
-
-enum Id {
-  WIRED,
-  ENGADGET,
-  BBC_NEWS,
-  THE_VERGE,
-  REUTERS,
-  CNN,
-  ARS_TECHNICA,
-  BUSINESS_INSIDER
-}
-
-final idValues = EnumValues({
-  "ars-technica": Id.ARS_TECHNICA,
-  "bbc-news": Id.BBC_NEWS,
-  "business-insider": Id.BUSINESS_INSIDER,
-  "cnn": Id.CNN,
-  "engadget": Id.ENGADGET,
-  "reuters": Id.REUTERS,
-  "the-verge": Id.THE_VERGE,
-  "wired": Id.WIRED
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap = {};
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    if (reverseMap.isEmpty) return {};
-    return reverseMap;
-  }
 }
