@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/provider/category.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -8,25 +10,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> list = [
-    "🌍 World",
-    "🐶 Animal",
-    "🎓 Education",
-    "🏀 Sport",
-    "🎮 Games",
-    "🌲 Plant",
-    "🌴 Vacation",
-    "🧥 Fashion",
-    "🍔 Food",
-    "🎬 Movie",
-    "💻 Tech",
-    "🎶 Music"
-  ];
-
-  List<int> select = [];
-
   @override
   Widget build(BuildContext context) {
+    Category category = Provider.of<Category>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -83,17 +69,16 @@ class _HomePageState extends State<HomePage> {
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                 ),
-                itemCount: list.length,
+                itemCount: category.getCategoryList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  bool selected = select.contains(index);
+                  bool selected = category.selectedItem.contains(index);
                   return GestureDetector(
                     onTap: () {
-                      if (!select.contains(index)) {
-                        select.add(index);
+                      if (!category.selectedItem.contains(index)) {
+                        category.itemSelected(index);
                       } else {
-                        select.remove(index);
+                        category.removeSelected(index);
                       }
-                      setState(() {});
                     },
                     child: Container(
                       margin: const EdgeInsets.all(10),
@@ -119,14 +104,14 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            list[index].split(" ").first,
+                            category.getCategoryList[index].split(" ").first,
                             style: const TextStyle(fontSize: 33),
                           ),
                           const SizedBox(
                             height: 2,
                           ),
                           Text(
-                            list[index].split(" ").last,
+                            category.getCategoryList[index].split(" ").last,
                           ),
                         ],
                       ),

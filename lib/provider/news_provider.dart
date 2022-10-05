@@ -10,14 +10,6 @@ class NewsProvider extends ChangeNotifier {
     "x-api-key": "a9dff07c1bbe4be985081eace5123f05",
   };
 
-  static Map<String, String> param = {"q": "cricket"};
-
-  static BaseOptions options = BaseOptions(
-    headers: header,
-    queryParameters: param,
-  );
-  static Dio dio = Dio(options);
-
   final List<Article> _articles = [];
   List<Article> get articles => _articles;
 
@@ -28,9 +20,17 @@ class NewsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getNews(bool val) async {
+  Future<void> getNews(String search) async {
+    _articles.clear();
+    Map<String, String> param = {"q": search};
+    BaseOptions options = BaseOptions(
+      headers: header,
+      queryParameters: param,
+    );
+    Dio dio = Dio(options);
+
     setLoading = true;
-    headline = val;
+    // headline = val;
     String path = everyThingPath;
     NewsModel? newsModel;
     try {
