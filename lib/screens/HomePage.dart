@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/provider/category.dart';
+import 'package:news_app/temp.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -120,16 +121,39 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-            Container(
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30), color: Colors.blue),
-              child: const Align(
+            GestureDetector(
+              onTap: () {
+                if (category.selectedCatList.length == 5) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => const Temp()),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(category.msg),
+                      backgroundColor: Colors.red,
+                      padding: const EdgeInsets.all(10),
+                      duration: const Duration(seconds: 1),
+                    ),
+                  );
+                }
+              },
+              child: Container(
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.blue),
+                child: Align(
                   child: Text(
-                "Continue",
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              )),
+                    category.msg,
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

@@ -22,7 +22,11 @@ class NewsProvider extends ChangeNotifier {
 
   Future<void> getNews(String search) async {
     _articles.clear();
-    Map<String, String> param = {"q": search};
+    Map<String, String> param = {
+      "q": search,
+      "sortBy": "publishedAt",
+      "language": "en"
+    };
     BaseOptions options = BaseOptions(
       headers: header,
       queryParameters: param,

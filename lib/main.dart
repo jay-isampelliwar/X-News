@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news_app/data_screen.dart';
 import 'package:news_app/provider/category.dart';
 import 'package:news_app/provider/news_provider.dart';
+import 'package:news_app/screens/HomePage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Homee(),
+        home: HomePage(),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/provider/news_provider.dart';
+import 'package:news_app/screens/full_page.dart';
 import 'package:provider/provider.dart';
 
 class Homee extends StatefulWidget {
@@ -127,26 +128,43 @@ class _HomeeState extends State<Homee> {
           : ListView.builder(
               itemCount: provider.articles.length,
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  margin: const EdgeInsets.only(left: 5, right: 5, bottom: 20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: Colors.grey.shade200,
-                  ),
-                  child: Card(
-                    child: Column(
-                      children: [
-                        Card(
-                          child: Row(
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: ((context) => FullPage(
+                              article: provider.articles[index],
+                            )),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin:
+                        const EdgeInsets.only(left: 5, right: 5, bottom: 20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.grey.shade200,
+                    ),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          Card(
+                            child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                    height: 150,
-                                    width: 150,
+                                  height: 150,
+                                  width: 150,
+                                  child: Hero(
+                                    tag: "urlImage",
                                     child: Image.network(
-                                      provider.articles[index].urlToImage ?? "",
+                                      provider.articles[index].urlToImage ??
+                                          "https://clideo.com/files/content/twitter-meme-maker-1.png",
                                       fit: BoxFit.cover,
-                                    )),
+                                    ),
+                                  ),
+                                ),
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
@@ -158,8 +176,7 @@ class _HomeeState extends State<Homee> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 22,
                                           ),
-                                          maxLines: 3,
-                                          overflow: TextOverflow.fade,
+                                          maxLines: 5,
                                         ),
                                         const SizedBox(
                                           height: 5,
@@ -186,45 +203,23 @@ class _HomeeState extends State<Homee> {
                                     ),
                                   ),
                                 ),
-                              ]),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            provider.articles[index].description ?? "",
-                            style: const TextStyle(fontSize: 18),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              provider.articles[index].description ?? "",
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
               },
             ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     getData(provider);
-      //   },
-      // ),
     );
   }
 }
-
-// class CustomSearchDelegate extends SearchDelegate {
-//   @override
-//   List<Widget>? buildActions(BuildContext context) {}
-
-//   @override
-//   Widget? buildLeading(BuildContext context) {}
-
-//   @override
-//   Widget buildResults(BuildContext context) {
-//     List<String> matched_query = [];
-//     return Container();
-//   }
-
-//   @override
-//   Widget buildSuggestions(BuildContext context) {
-//     return Container();
-//   }
-// }
